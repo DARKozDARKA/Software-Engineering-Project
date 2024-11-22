@@ -2,10 +2,7 @@
 {
     public static class PrefabsPath
     {
-        public const string Player = "Player";
+        public const string Player = "Units/Characters/Player";
         public const string UI = "UI/Canvas";
-        public const string UIAlive = "UI/AliveUI";
-        public const string UIDead = "UI/DeadUI";
-       
     }
 }

@@ -39,6 +39,7 @@ namespace CodeBase.Infrastructure.States
 
         private void OnLoaded()
         {
+            _prefabFactory.CreatePlayer(new Vector3(0, 0, 0));
             _prefabFactory.CreateUIRoot();
             GameLoopStateDTO dto = CreateGameLoopStateDTO();
             _stateMachine.Enter<GameLoopState, GameLoopStateDTO>(dto);

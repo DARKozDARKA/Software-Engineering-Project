@@ -39,7 +39,7 @@ namespace CodeBase.Infrastructure.States
 
         public void Enter(GameLoopStateDTO payload)
         {
-            throw new System.NotImplementedException();
+            //
         }
 
 
