@@ -1,13 +1,25 @@
-﻿namespace CodeBase.Services.InputService
+﻿using System;
+using UnityEngine;
+using Zenject;
+
+namespace CodeBase.Services.InputService
 {
-    public class InputService : IInputService
+    public class InputService : IInputService, ITickable
     {
-        private IInputServiceProvider _provider;
+        public void Tick()
+        {
+            if (Input.GetKeyDown(KeyCode.W))
+                OnJumpPressed?.Invoke();
+            
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+                OnFirePressed?.Invoke();
+        }
 
-        public InputService(IInputServiceProvider provider) => 
-            _provider = provider;
+        public float GetHorizontalDirection() => 
+            Input.GetAxis("Horizontal");
 
-        public bool GetUpButton() => 
-            _provider.GetUpButton();
+        public Action OnJumpPressed { get; set; }
+        public Action OnFirePressed { get; set; }
+
     }
 }

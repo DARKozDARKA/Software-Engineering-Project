@@ -1,4 +1,5 @@
 using CodeBase.Infrastructure.States.DTO;
+using CodeBase.Logic.Player;
 using CodeBase.Services.DifficultyService;
 using CodeBase.Services.Factory;
 using CodeBase.Services.StaticData;
@@ -18,11 +19,14 @@ namespace CodeBase.Infrastructure.States
         private IStaticDataService _staticDataService;
         private IPrefabFactory _prefabFactory;
         private IDifficultyService _difficultyService;
+        private IPlayerProvider _playerProvider;
 
         [Inject]
         public void Construct(GameStateMachine stateMachine, ISceneLoader sceneLoader,
-            IStaticDataService staticDataService, IPrefabFactory prefabFactory, IDifficultyService difficultyService)
+            IStaticDataService staticDataService, IPrefabFactory prefabFactory, IDifficultyService difficultyService,
+            IPlayerProvider playerProvider)
         {
+            _playerProvider = playerProvider;
             _difficultyService = difficultyService;
             _prefabFactory = prefabFactory;
             _staticDataService = staticDataService;
@@ -39,7 +43,9 @@ namespace CodeBase.Infrastructure.States
 
         private void OnLoaded()
         {
-            _prefabFactory.CreatePlayer(new Vector3(0, 0, 0));
+            Player player = _prefabFactory.CreatePlayer(new Vector3(0, 0, 0));
+            _playerProvider.SetPlayer(player);
+            
             _prefabFactory.CreateUIRoot();
             GameLoopStateDTO dto = CreateGameLoopStateDTO();
             _stateMachine.Enter<GameLoopState, GameLoopStateDTO>(dto);

@@ -42,16 +42,16 @@ namespace CodeBase.Infrastructure.Installers
 
         private void RegisterUtilities()
         {
-            Container.Bind<ICoroutineRunner>().To<CoroutineRunner>().FromInstance(_coroutineRunner).AsSingle();
-            Container.Bind<ISceneLoader>().To<SceneLoader>().AsSingle();
-            Container.Bind<IStaticDataService>().To<StaticDataService>().AsSingle();
-            Container.Bind<IAssetProvider>().To<AssetProvider>().AsSingle();
-            Container.Bind<IDifficultyService>().To<DifficultyService>().AsSingle();
-            Container.Bind<ITimeCounter>().To<TimeCounter>().AsSingle();
-            Container.Bind<IProgressService>().To<ProgressService>().AsSingle();
-            Container.Bind<ISaveLoadService>().To<SaveLoadService>().AsSingle();
-            Container.Bind<IInputService>().To<InputService>().AsSingle();
-            Container.Bind<IInputServiceProvider>().To<InputServiceProvider>().AsSingle();
+            Container.BindInterfacesTo<CoroutineRunner>().FromInstance(_coroutineRunner).AsSingle();
+            Container.BindInterfacesTo<SceneLoader>().AsSingle();
+            Container.BindInterfacesTo<StaticDataService>().AsSingle();
+            Container.BindInterfacesTo<AssetProvider>().AsSingle();
+            Container.BindInterfacesTo<DifficultyService>().AsSingle();
+            Container.BindInterfacesTo<TimeCounter>().AsSingle();
+            Container.BindInterfacesTo<ProgressService>().AsSingle();
+            Container.BindInterfacesTo<SaveLoadService>().AsSingle();
+            Container.BindInterfacesTo<InputService>().AsSingle();
+            Container.BindInterfacesTo<PlayerProvider>().AsSingle();
         }
 
         private void RegisterFactories()

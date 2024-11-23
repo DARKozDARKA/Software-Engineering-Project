@@ -24,17 +24,9 @@ namespace CodeBase.Infrastructure.States
         private IPrefabFactory _prefabFactory;
 
         [Inject]
-        public void Construct(GameStateMachine gameStateMachine,
-            ICoroutineRunner coroutineRunner, IStaticDataService staticDataService, ITimeCounter timeCounter,
-            IProgressService progressService, ISaveLoadService saveLoadService, IPrefabFactory prefabFactory)
+        public void Construct(IPrefabFactory prefabFactory)
         {
             _prefabFactory = prefabFactory;
-            _saveLoadService = saveLoadService;
-            _progressService = progressService;
-            _timeCounter = timeCounter;
-            _coroutineRunner = coroutineRunner;
-            _staticDataService = staticDataService;
-            _gameStateMachine = gameStateMachine;
         }
 
         public void Enter(GameLoopStateDTO payload)

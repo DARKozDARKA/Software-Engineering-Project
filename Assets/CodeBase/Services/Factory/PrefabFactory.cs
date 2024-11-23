@@ -1,4 +1,5 @@
-﻿using CodeBase.Services.AssetManagment;
+﻿using CodeBase.Logic.Player;
+using CodeBase.Services.AssetManagment;
 using CodeBase.Services.StaticData;
 using CodeBase.StaticData.Strings;
 using CodeBase.Tools;
@@ -21,9 +22,10 @@ namespace CodeBase.Services.Factory
             _container = container;
         }
 
-        public GameObject CreatePlayer(Vector3 at) =>
+        public Player CreatePlayer(Vector3 at) =>
             _assetProvider.Instantiate(PrefabsPath.Player, at)
-                .With(Inject);
+                .With(Inject)
+                .GetComponent<Player>();
 
         public GameObject CreateUIRoot() =>
             _assetProvider.Instantiate(PrefabsPath.UI)

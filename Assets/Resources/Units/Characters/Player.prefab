@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 3263293085680106841}
   - component: {fileID: 6346903946836117706}
   - component: {fileID: 2297905789111560265}
+  - component: {fileID: 834713412849766748}
+  - component: {fileID: 8877319073474328211}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -105,7 +107,7 @@ Rigidbody2D:
   m_LinearDamping: 0.2
   m_AngularDamping: 2
   m_GravityScale: 1
-  m_Material: {fileID: 6200000, guid: 481a754c64e881a46881e011248e648d, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -126,7 +128,7 @@ PolygonCollider2D:
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 481a754c64e881a46881e011248e648d, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -166,3 +168,28 @@ PolygonCollider2D:
       - {x: -0.5, y: -0.28866667}
       - {x: 0.5, y: -0.28866667}
   m_UseDelaunayMesh: 0
+--- !u!114 &834713412849766748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 524580795901076816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 354adb3796bf49f58e28601e65725c83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerMovement: {fileID: 8877319073474328211}
+--- !u!114 &8877319073474328211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 524580795901076816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4af12a5625c4342a435791fb7702330, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

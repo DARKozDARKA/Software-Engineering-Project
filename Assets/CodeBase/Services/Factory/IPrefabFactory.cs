@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using CodeBase.Logic.Player;
+using UnityEngine;
 
 namespace CodeBase.Services.Factory
 {
     public interface IPrefabFactory
     {
-        GameObject CreatePlayer(Vector3 at);
+        Player CreatePlayer(Vector3 at);
         GameObject CreateUIRoot();
     }
 }
