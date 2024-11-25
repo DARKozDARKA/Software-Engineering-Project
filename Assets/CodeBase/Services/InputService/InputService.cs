@@ -16,10 +16,10 @@ namespace CodeBase.Services.InputService
         
         public void Tick()
         {
-            if (Input.GetKeyDown(KeyCode.W))
+            if (Input.GetKeyDown(KeyCode.Mouse0))
                 OnJumpPressed?.Invoke();
             
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+            if (Input.GetKeyDown(KeyCode.Mouse1))
                 OnFirePressed?.Invoke();
         }
 
@@ -31,13 +31,16 @@ namespace CodeBase.Services.InputService
 
         public Vector2 GetMousePosition()
         {
-            Vector3 mouseScreenPosition = Input.mousePosition;
+            Vector3 mouseScreenPosition = GetScreenMousePosition();
 
             Camera camera = _cameraProvider.GetCamera();
             
             mouseScreenPosition.z = camera.nearClipPlane;
             return camera.ScreenToWorldPoint(mouseScreenPosition);
         }
+
+        public Vector2 GetScreenMousePosition() => 
+            Input.mousePosition;
 
         public Action OnJumpPressed { get; set; }
         public Action OnFirePressed { get; set; }

@@ -8,6 +8,8 @@ namespace CodeBase.Services.InputService
         float GetHorizontalDirection();
         float GetVerticalDirection();
         Vector2 GetMousePosition();
+        Vector2 GetScreenMousePosition();
+
         Action OnJumpPressed { get; set; }
         Action OnFirePressed { get; set; }
     }

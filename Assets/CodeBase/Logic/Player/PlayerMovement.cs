@@ -1,5 +1,6 @@
-﻿using System;
+﻿using CodeBase.Services.CameraProvider;
 using CodeBase.Services.InputService;
+using CodeBase.Tools;
 using UnityEngine;
 using Zenject;
 
@@ -7,42 +8,54 @@ namespace CodeBase.Logic.Player
 {
     public class PlayerMovement : MonoBehaviour
     {
-        private bool canJump = false;
 		private Rigidbody2D _rigidbody;
-
-		void Start()
+        private IInputService _inputService;
+        private ICameraProvider _cameraProvider;
+        
+        [SerializeField]
+        private int _jumpForce = 800;
+        
+        private bool _canJump = false;
+        
+        [Inject]
+        private void Construct(IInputService inputService, ICameraProvider cameraProvider)
         {
-			// Cache the Rigidbody2D for better performance
-			_rigidbody = GetComponent<Rigidbody2D>();
-
-			// Adjust gravity scale for faster falling
-			_rigidbody.gravityScale = 1; // Increase the gravity effect
-
-			// Prevent unwanted rotation
-			_rigidbody.freezeRotation = true;
-		}
-        void Update()
-        {   
-            if (Input.GetMouseButtonUp(0) && canJump)
-            {   // reinitialize forceAmount value at start
-                // mouse position
-                Vector3 posInScreen = Camera.main.WorldToScreenPoint(transform.position);
-                // so compute direction and normalize it
-                Vector3 dirToMouse = Input.mousePosition - posInScreen;
-                dirToMouse.Normalize();
-                // adding the force to the 2D Rigidbody according forceAmount value
-                GetComponent<Rigidbody2D>().AddForce(dirToMouse * 200 * 4);
-            }
+            _cameraProvider = cameraProvider;
+            _inputService = inputService;
         }
 
-        void OnCollisionStay2D(Collision2D obj)
+        private void Awake()
         {
-            canJump = true;
+            _rigidbody = GetComponent<Rigidbody2D>();
         }
 
-        void OnCollisionExit2D(Collision2D obj)
+        private void Start()
         {
-            canJump = false;
+            _rigidbody.gravityScale = 1;
+            _rigidbody.freezeRotation = true;
+            _inputService.OnJumpPressed += OnJumpPressed;
+        }
+
+        private void OnDestroy() => 
+            _inputService.OnJumpPressed -= OnJumpPressed;
+
+        private void OnCollisionStay2D(Collision2D obj) => 
+            _canJump = true;
+
+        private void OnCollisionExit2D(Collision2D obj) => 
+            _canJump = false;
+
+        private void OnJumpPressed()
+        {
+            if (!_canJump)
+                return;
+            
+            Vector3 posInScreen = _cameraProvider.GetCamera().WorldToScreenPoint(transform.position);
+            
+            Vector3 directionToMouse = _inputService.GetScreenMousePosition().ToVector3() - posInScreen;
+            directionToMouse.Normalize();
+
+            _rigidbody.AddForce(directionToMouse * _jumpForce);
         }
 	}
 }
