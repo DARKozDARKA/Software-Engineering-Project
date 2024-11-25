@@ -1,4 +1,5 @@
-﻿using CodeBase.Services.InputService;
+﻿using System;
+using CodeBase.Services.InputService;
 using UnityEngine;
 using Zenject;
 
@@ -13,6 +14,11 @@ namespace CodeBase.Logic.Player
         {
             _inputService = inputService;
             _inputService.OnJumpPressed += OnJumpPressed;
+        }
+
+        private void Awake()
+        {
+            gameObject.AddComponent<PlayerEasyMovement>(); // Remove it, it's just for testing
         }
 
         public void OnDestroy()

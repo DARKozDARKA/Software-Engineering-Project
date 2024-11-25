@@ -1,5 +1,6 @@
 using CodeBase.Infrastructure.States;
 using CodeBase.Services.AssetManagment;
+using CodeBase.Services.CameraProvider;
 using CodeBase.Services.DifficultyService;
 using CodeBase.Services.DynamicData;
 using CodeBase.Services.Factory;
@@ -52,6 +53,9 @@ namespace CodeBase.Infrastructure.Installers
             Container.BindInterfacesTo<SaveLoadService>().AsSingle();
             Container.BindInterfacesTo<InputService>().AsSingle();
             Container.BindInterfacesTo<PlayerProvider>().AsSingle();
+            Container.BindInterfacesTo<RaycasterService>().AsSingle();
+            Container.BindInterfacesTo<CameraProvider>().AsSingle();
+            
         }
 
         private void RegisterFactories()

@@ -32,6 +32,8 @@ namespace CodeBase.Tools
 
         public static T ToDeserialized<T>(this string json) =>
             JsonUtility.FromJson<T>(json);
-        
+
+        public static Vector2 ToVector2(this Vector3 vector) => 
+            new Vector2(vector.x, vector.y);
     }
 }
