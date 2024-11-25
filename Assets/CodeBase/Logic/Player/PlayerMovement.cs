@@ -7,33 +7,42 @@ namespace CodeBase.Logic.Player
 {
     public class PlayerMovement : MonoBehaviour
     {
-        private IInputService _inputService;
+        private bool canJump = false;
+		private Rigidbody2D _rigidbody;
 
-        [Inject]
-        public void Construct(IInputService inputService)
+		void Start()
         {
-            _inputService = inputService;
-            _inputService.OnJumpPressed += OnJumpPressed;
+			// Cache the Rigidbody2D for better performance
+			_rigidbody = GetComponent<Rigidbody2D>();
+
+			// Adjust gravity scale for faster falling
+			_rigidbody.gravityScale = 1; // Increase the gravity effect
+
+			// Prevent unwanted rotation
+			_rigidbody.freezeRotation = true;
+		}
+        void Update()
+        {   
+            if (Input.GetMouseButtonUp(0) && canJump)
+            {   // reinitialize forceAmount value at start
+                // mouse position
+                Vector3 posInScreen = Camera.main.WorldToScreenPoint(transform.position);
+                // so compute direction and normalize it
+                Vector3 dirToMouse = Input.mousePosition - posInScreen;
+                dirToMouse.Normalize();
+                // adding the force to the 2D Rigidbody according forceAmount value
+                GetComponent<Rigidbody2D>().AddForce(dirToMouse * 200 * 4);
+            }
         }
 
-        private void Awake()
+        void OnCollisionStay2D(Collision2D obj)
         {
-            gameObject.AddComponent<PlayerEasyMovement>(); // Remove it, it's just for testing
+            canJump = true;
         }
 
-        public void OnDestroy()
+        void OnCollisionExit2D(Collision2D obj)
         {
-            _inputService.OnJumpPressed -= OnJumpPressed;
+            canJump = false;
         }
-
-        private void OnJumpPressed()
-        {
-            // print("hi");
-        }
-
-        public void Update()
-        {
-            // print(_inputService.GetHorizontalDirection());
-        }
-    }
+	}
 }
