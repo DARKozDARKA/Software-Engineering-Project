@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2297905789111560265}
   - component: {fileID: 834713412849766748}
   - component: {fileID: 8877319073474328211}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -205,7 +205,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1505041424707860510}
   - component: {fileID: 8893697494019507840}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: BulletTransform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -292,7 +292,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2005022672476082623}
   - component: {fileID: 8156609764529476459}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: RotatePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -327,7 +327,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1ff234b3a76e9143aaa541bdda7fad6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: {fileID: 2797917382362503203, guid: 63da9361e18f95c4d9672f277366e8a6, type: 3}
-  bulletTransform: {fileID: 1505041424707860510}
-  canFire: 1
-  timeBetweenFiring: 0.3
+  _muzzleTransform: {fileID: 1505041424707860510}
+  _playerMovement: {fileID: 8877319073474328211}
+  _reloadTime: 1

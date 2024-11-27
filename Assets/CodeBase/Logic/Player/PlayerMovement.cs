@@ -47,6 +47,11 @@ namespace CodeBase.Logic.Player
 		private void OnCollisionExit2D(Collision2D obj) =>
 			_canJump = false;
 
+		public void TeleportTo(Vector3 targetPosition)
+		{
+			transform.position = targetPosition;
+		}
+
 		private void OnJumpPressed()
 		{
 			if (!_canJump)
@@ -58,11 +63,6 @@ namespace CodeBase.Logic.Player
 			directionToMouse.Normalize();
 
 			_rigidbody.AddForce(directionToMouse * _jumpForce);
-		}
-
-		public void TeleportTo(Vector3 targetPosition)
-		{
-			transform.position = targetPosition;
 		}
 	}
 }

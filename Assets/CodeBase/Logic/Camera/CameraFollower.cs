@@ -8,6 +8,9 @@ public class CameraFollower : MonoBehaviour
     private IPlayerProvider _playerProvider;
     private Player _player;
     private bool _isPlayerInitialized;
+    
+    [SerializeField]
+    private Vector3 _offset;
 
     [Inject]
     public void Construct(IPlayerProvider playerProvider)
@@ -33,8 +36,7 @@ public class CameraFollower : MonoBehaviour
     {
         if (!_isPlayerInitialized)
             return;
-        
-        // Logic
-        // print(_player.transform.position);
+
+        transform.position = _player.transform.position + _offset;
     }
 }

@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 8065933052947027682}
   - component: {fileID: 4079166238653711371}
   - component: {fileID: 3344163487665931676}
-  m_Layer: 0
-  m_Name: Bullet
+  m_Layer: 8
+  m_Name: TeleportProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7084a7c7c54a1247ba8c797a74257d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  force: 5
+  _speed: 5
 --- !u!50 &4079166238653711371
 Rigidbody2D:
   serializedVersion: 5

@@ -31,7 +31,12 @@ namespace CodeBase.Services.Factory
             _assetProvider.Instantiate(PrefabsPath.UI)
                 .With(Inject)
                 .With(_ => _uiRoot = _);
-        
+
+        public TeleporterProjectile CreateTeleportProjectile(Vector3 position, Vector2 direction) =>
+            _assetProvider.Instantiate(PrefabsPath.TeleportProjectile, position)
+                .With(Inject)
+                .GetComponent<TeleporterProjectile>()
+                .With(_ => _.SetDirection(direction));
 
         private void Inject(GameObject gameObject) =>
             _container.InjectGameObject(gameObject);
