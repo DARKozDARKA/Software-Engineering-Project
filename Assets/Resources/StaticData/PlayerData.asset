@@ -17,3 +17,4 @@ MonoBehaviour:
   GravityScale: 1
   GunReloadTime: 0.3
   GunProjectileSpeed: 5
+  CollisionAdjustmentAmount: 0.5

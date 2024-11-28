@@ -37,7 +37,7 @@ public class TeleporterProjectile : MonoBehaviour
 
 	public void SetSpeed(float speed) =>
 		_speed = speed;
-
+	
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
 		OnSurfaceHit?.Invoke(this);

@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using CodeBase.Services.CameraProvider;
 using CodeBase.Services.InputService;
 using CodeBase.StaticData.ScriptableObjects;
+using CodeBase.StaticData.Strings;
 using CodeBase.Tools;
 using UnityEngine;
 using Zenject;
@@ -19,11 +21,18 @@ namespace CodeBase.Logic.Player
 		private bool _canJump => _isGrounded && _isJumpReloaded;
 
 		private bool _isGrounded;
-		private bool _isJumpReloaded = true; 
+		private bool _isJumpReloaded = true;
+
+		[SerializeField]
+		private BoxCollider2D _playerSpaceCollider;
+
+		private float _collisionAdjustmentAmount;
+		private IRaycasterService _raycasterService;
 
 		[Inject]
-		private void Construct(IInputService inputService, ICameraProvider cameraProvider)
+		private void Construct(IInputService inputService, ICameraProvider cameraProvider, IRaycasterService raycasterService)
 		{
+			_raycasterService = raycasterService;
 			_cameraProvider = cameraProvider;
 			_inputService = inputService;
 		}
@@ -49,6 +58,7 @@ namespace CodeBase.Logic.Player
 			_rigidbody.gravityScale = playerData.GravityScale;
 			_jumpForce = playerData.JumpPower;
 			_jumpReloadTime = playerData.PlayerJumpReload;
+			_collisionAdjustmentAmount = playerData.CollisionAdjustmentAmount;
 		}
 
 		private void OnCollisionStay2D(Collision2D obj) =>
@@ -57,10 +67,8 @@ namespace CodeBase.Logic.Player
 		private void OnCollisionExit2D(Collision2D obj) =>
 			_isGrounded = false;
 
-		public void TeleportTo(Vector3 targetPosition)
-		{
-			transform.position = targetPosition;
-		}
+		public void TeleportTo(Vector3 targetPosition) => 
+			transform.position = _raycasterService.AdjustPosition(targetPosition, _playerSpaceCollider.size, _collisionAdjustmentAmount);
 
 		private void OnJumpPressed()
 		{

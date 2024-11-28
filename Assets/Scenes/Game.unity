@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 175954766}
   - component: {fileID: 175954765}
   - component: {fileID: 175954764}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tiles
   m_TagString: Tiles
   m_Icon: {fileID: 0}

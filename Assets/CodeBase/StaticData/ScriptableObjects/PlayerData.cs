@@ -13,5 +13,6 @@ namespace CodeBase.StaticData.ScriptableObjects
         [Header("Player Gun Settings")]
         public float GunReloadTime = 0.3f;
         public float GunProjectileSpeed = 5f;
+        public float CollisionAdjustmentAmount = 0.5f;
     }
 }

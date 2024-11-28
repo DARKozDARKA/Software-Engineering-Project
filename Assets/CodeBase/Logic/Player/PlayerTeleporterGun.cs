@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using CodeBase.Logic.Player;
 using CodeBase.Services.Factory;
 using CodeBase.Services.InputService;
@@ -17,6 +18,9 @@ public class PlayerTeleporterGun : MonoBehaviour, IPlayerDataRequired
 
     [SerializeField]
     private PlayerMovement _playerMovement;
+
+    [SerializeField]
+    private Collider2D _gunCollider;
 
     private float _reloadTime = 1;
     
@@ -59,6 +63,10 @@ public class PlayerTeleporterGun : MonoBehaviour, IPlayerDataRequired
     private void OnFirePressed()
     {
         if (!_canFire)
+            return;
+
+        List<Collider2D> results = new List<Collider2D>();
+        if (_gunCollider.Overlap(results) != 0)
             return;
 
         _prefabFactory.CreateTeleportProjectile(_muzzleTransform.transform.position, _currentDirection)
