@@ -1,7 +1,6 @@
 using CodeBase.Infrastructure.States;
 using CodeBase.Services.AssetManagment;
 using CodeBase.Services.CameraProvider;
-using CodeBase.Services.DifficultyService;
 using CodeBase.Services.DynamicData;
 using CodeBase.Services.Factory;
 using CodeBase.Services.InputService;
@@ -47,7 +46,6 @@ namespace CodeBase.Infrastructure.Installers
             Container.BindInterfacesTo<SceneLoader>().AsSingle();
             Container.BindInterfacesTo<StaticDataService>().AsSingle();
             Container.BindInterfacesTo<AssetProvider>().AsSingle();
-            Container.BindInterfacesTo<DifficultyService>().AsSingle();
             Container.BindInterfacesTo<TimeCounter>().AsSingle();
             Container.BindInterfacesTo<ProgressService>().AsSingle();
             Container.BindInterfacesTo<SaveLoadService>().AsSingle();

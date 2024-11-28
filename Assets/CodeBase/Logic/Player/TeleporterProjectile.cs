@@ -1,5 +1,7 @@
 using System;
+using CodeBase.Logic.Player;
 using CodeBase.Services.InputService;
+using CodeBase.StaticData.ScriptableObjects;
 using UnityEngine;
 using Zenject;
 
@@ -27,15 +29,18 @@ public class TeleporterProjectile : MonoBehaviour
 		transform.rotation = Quaternion.Euler(0, 0, rotation + 90);
 	}
 
-	private void OnTriggerEnter2D(Collider2D collision)
-	{
-		OnSurfaceHit?.Invoke(this);
-		Destroy(gameObject);
-	}
-
 	public Vector3 GetPosition() =>
 		transform.position;
 
 	public void SetDirection(Vector2 direction) =>
 		_direction = direction;
+
+	public void SetSpeed(float speed) =>
+		_speed = speed;
+
+	private void OnTriggerEnter2D(Collider2D collision)
+	{
+		OnSurfaceHit?.Invoke(this);
+		Destroy(gameObject);
+	}
 }

@@ -1,6 +1,9 @@
-﻿using CodeBase.Logic.Player;
+﻿using System.Collections.Generic;
+using System.Linq;
+using CodeBase.Logic.Player;
 using CodeBase.Services.AssetManagment;
 using CodeBase.Services.StaticData;
+using CodeBase.StaticData.ScriptableObjects;
 using CodeBase.StaticData.Strings;
 using CodeBase.Tools;
 using UnityEngine;
@@ -25,7 +28,12 @@ namespace CodeBase.Services.Factory
         public Player CreatePlayer(Vector3 at) =>
             _assetProvider.Instantiate(PrefabsPath.Player, at)
                 .With(Inject)
+                .With(_ => _.GetComponents<IPlayerDataRequired>()
+                    .ToList()
+                    .ForEach(__ => __.LoadData(_staticDataService.GetPlayerData())))
                 .GetComponent<Player>();
+        
+
 
         public GameObject CreateUIRoot() =>
             _assetProvider.Instantiate(PrefabsPath.UI)
@@ -36,7 +44,8 @@ namespace CodeBase.Services.Factory
             _assetProvider.Instantiate(PrefabsPath.TeleportProjectile, position)
                 .With(Inject)
                 .GetComponent<TeleporterProjectile>()
-                .With(_ => _.SetDirection(direction));
+                .With(_ => _.SetDirection(direction))
+                .With(_ => _.SetSpeed(_staticDataService.GetPlayerData().GunProjectileSpeed));
 
         private void Inject(GameObject gameObject) =>
             _container.InjectGameObject(gameObject);

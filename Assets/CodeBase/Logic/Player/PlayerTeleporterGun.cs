@@ -3,12 +3,13 @@ using System.Collections;
 using CodeBase.Logic.Player;
 using CodeBase.Services.Factory;
 using CodeBase.Services.InputService;
+using CodeBase.StaticData.ScriptableObjects;
 using CodeBase.Tools;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Zenject;
 
-public class PlayerTeleporterGun : MonoBehaviour
+public class PlayerTeleporterGun : MonoBehaviour, IPlayerDataRequired
 {
     [FormerlySerializedAs("bulletTransform")]
     [SerializeField]
@@ -17,7 +18,6 @@ public class PlayerTeleporterGun : MonoBehaviour
     [SerializeField]
     private PlayerMovement _playerMovement;
 
-    [SerializeField]
     private float _reloadTime = 1;
     
     private bool _canFire = true;
@@ -41,6 +41,11 @@ public class PlayerTeleporterGun : MonoBehaviour
     private void OnDestroy()
     {
         _inputService.OnFirePressed -= OnFirePressed;
+    }
+    
+    public void LoadData(PlayerData playerData)
+    {
+        _reloadTime = playerData.GunReloadTime;
     }
     
     private void Update()
@@ -74,6 +79,7 @@ public class PlayerTeleporterGun : MonoBehaviour
         yield return new WaitForSeconds(_reloadTime);
         _canFire = true;
     }
+
 
 
 }

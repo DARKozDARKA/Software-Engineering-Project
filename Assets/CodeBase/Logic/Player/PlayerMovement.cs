@@ -1,21 +1,25 @@
-﻿using CodeBase.Services.CameraProvider;
+﻿using System.Collections;
+using CodeBase.Services.CameraProvider;
 using CodeBase.Services.InputService;
+using CodeBase.StaticData.ScriptableObjects;
 using CodeBase.Tools;
 using UnityEngine;
 using Zenject;
 
 namespace CodeBase.Logic.Player
 {
-	public class PlayerMovement : MonoBehaviour
+	public class PlayerMovement : MonoBehaviour, IPlayerDataRequired
 	{
 		private Rigidbody2D _rigidbody;
 		private IInputService _inputService;
 		private ICameraProvider _cameraProvider;
-
-		[SerializeField]
+		
+		private float _jumpReloadTime;
 		private int _jumpForce = 800;
+		private bool _canJump => _isGrounded && _isJumpReloaded;
 
-		private bool _canJump = false;
+		private bool _isGrounded;
+		private bool _isJumpReloaded = true; 
 
 		[Inject]
 		private void Construct(IInputService inputService, ICameraProvider cameraProvider)
@@ -31,7 +35,6 @@ namespace CodeBase.Logic.Player
 
 		private void Start()
 		{
-			_rigidbody.gravityScale = 1;
 			_rigidbody.freezeRotation = true;
 			_inputService.OnJumpPressed += OnJumpPressed;
 		}
@@ -40,12 +43,19 @@ namespace CodeBase.Logic.Player
 		{
 			_inputService.OnJumpPressed -= OnJumpPressed;
 		}
+		
+		public void LoadData(PlayerData playerData)
+		{
+			_rigidbody.gravityScale = playerData.GravityScale;
+			_jumpForce = playerData.JumpPower;
+			_jumpReloadTime = playerData.PlayerJumpReload;
+		}
 
 		private void OnCollisionStay2D(Collision2D obj) =>
-			_canJump = true;
+			_isGrounded = true;
 
 		private void OnCollisionExit2D(Collision2D obj) =>
-			_canJump = false;
+			_isGrounded = false;
 
 		public void TeleportTo(Vector3 targetPosition)
 		{
@@ -63,6 +73,14 @@ namespace CodeBase.Logic.Player
 			directionToMouse.Normalize();
 
 			_rigidbody.AddForce(directionToMouse * _jumpForce);
+			StartCoroutine(JumpReload());
+		}
+
+		private IEnumerator JumpReload()
+		{
+			_isJumpReloaded = false;
+			yield return new WaitForSeconds(_jumpReloadTime);
+			_isJumpReloaded = true;
 		}
 	}
 }
