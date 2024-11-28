@@ -45,7 +45,7 @@ namespace CodeBase.Infrastructure.States
         {
             _cameraProvider.SetCamera(Camera.main); // TODO: Should spawn it
             
-            Player player = _prefabFactory.CreatePlayer(new Vector3(0, 0, 0)); // TODO That's also bullshit 
+            Player player = _prefabFactory.CreatePlayer(Object.FindAnyObjectByType<PlayerSpawnPoint>().transform.position);
             _playerProvider.SetPlayer(player);
 
             _prefabFactory.CreateUIRoot();

@@ -14,5 +14,6 @@ namespace CodeBase.StaticData.ScriptableObjects
         public float GunReloadTime = 0.3f;
         public float GunProjectileSpeed = 5f;
         public float CollisionAdjustmentAmount = 0.5f;
+        public float GunProjectileLifetime = 1;
     }
 }

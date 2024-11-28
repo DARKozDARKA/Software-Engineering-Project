@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using CodeBase.Logic.Player;
 using CodeBase.Services.InputService;
 using CodeBase.StaticData.ScriptableObjects;
@@ -37,10 +38,19 @@ public class TeleporterProjectile : MonoBehaviour
 
 	public void SetSpeed(float speed) =>
 		_speed = speed;
+
+	public void SetLifetime(float lifetime) =>
+		StartCoroutine(DestroyAfter(lifetime));
 	
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
 		OnSurfaceHit?.Invoke(this);
+		Destroy(gameObject);
+	}
+
+	private IEnumerator DestroyAfter(float seconds)
+	{
+		yield return new WaitForSeconds(seconds);
 		Destroy(gameObject);
 	}
 }

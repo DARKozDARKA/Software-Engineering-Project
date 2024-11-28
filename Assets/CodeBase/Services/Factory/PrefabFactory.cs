@@ -45,7 +45,8 @@ namespace CodeBase.Services.Factory
                 .With(Inject)
                 .GetComponent<TeleporterProjectile>()
                 .With(_ => _.SetDirection(direction))
-                .With(_ => _.SetSpeed(_staticDataService.GetPlayerData().GunProjectileSpeed));
+                .With(_ => _.SetSpeed(_staticDataService.GetPlayerData().GunProjectileSpeed))
+                .With(_ => _.SetLifetime(_staticDataService.GetPlayerData().GunProjectileLifetime));
 
         private void Inject(GameObject gameObject) =>
             _container.InjectGameObject(gameObject);
