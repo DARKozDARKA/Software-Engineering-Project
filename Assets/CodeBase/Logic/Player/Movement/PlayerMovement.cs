@@ -3,7 +3,6 @@ using System.Collections;
 using CodeBase.Services.CameraProvider;
 using CodeBase.Services.InputService;
 using CodeBase.StaticData.ScriptableObjects;
-using CodeBase.StaticData.Strings;
 using CodeBase.Tools;
 using UnityEngine;
 using Zenject;
@@ -15,16 +14,22 @@ namespace CodeBase.Logic.Player
 		private Rigidbody2D _rigidbody;
 		private IInputService _inputService;
 		private ICameraProvider _cameraProvider;
-		
+
 		private float _jumpReloadTime;
 		private int _jumpForce = 800;
-		private bool _canJump => _isGrounded && _isJumpReloaded;
+		private bool _canJump => _isGrounded && !_isOnSlope && _isJumpReloaded;
 
 		private bool _isGrounded;
+		private bool _isOnSlope;
 		private bool _isJumpReloaded = true;
 
 		[SerializeField]
 		private BoxCollider2D _playerSpaceCollider;
+
+		[SerializeField]
+		private float _slopeAngleLimit = 30f; // Maximum angle for slopes
+		[SerializeField]
+		private float _wallAngleLimit = 75f;  // Minimum angle for walls
 
 		private float _collisionAdjustmentAmount;
 		private IRaycasterService _raycasterService;
@@ -52,7 +57,7 @@ namespace CodeBase.Logic.Player
 		{
 			_inputService.OnJumpPressed -= OnJumpPressed;
 		}
-		
+
 		public void LoadData(PlayerData playerData)
 		{
 			_rigidbody.gravityScale = playerData.GravityScale;
@@ -61,14 +66,51 @@ namespace CodeBase.Logic.Player
 			_collisionAdjustmentAmount = playerData.CollisionAdjustmentAmount;
 		}
 
-		private void OnCollisionStay2D(Collision2D obj) =>
-			_isGrounded = true;
+		private void OnCollisionStay2D(Collision2D collision)
+		{
+			foreach (ContactPoint2D contact in collision.contacts)
+			{
+				Vector2 normal = contact.normal;
+				float angle = Vector2.Angle(normal, Vector2.up);
 
-		private void OnCollisionExit2D(Collision2D obj) =>
+				if (angle <= _slopeAngleLimit)
+				{
+					// Flat ground or gentle slope
+					_isGrounded = true;
+					_isOnSlope = false;
+					return;
+				}
+				else if (angle >= _wallAngleLimit)
+				{
+					// Wall detected (steep surface)
+					_isGrounded = true;
+					_isOnSlope = false;
+					return;
+				}
+				else
+				{
+					// Slope detected
+					_isOnSlope = true;
+				}
+			}
+
+			// If no valid ground or wall detected
 			_isGrounded = false;
+		}
 
-		public void TeleportTo(Vector3 targetPosition) => 
+		private void OnCollisionExit2D(Collision2D collision)
+		{
+			_isGrounded = false;
+			_isOnSlope = false;
+		}
+
+		public void TeleportTo(Vector3 targetPosition)
+		{
+			if (!_canJump)
+				return;
+
 			transform.position = _raycasterService.AdjustPosition(targetPosition, _playerSpaceCollider.size, _collisionAdjustmentAmount);
+		}
 
 		private void OnJumpPressed()
 		{
