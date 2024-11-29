@@ -183,6 +183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerMovement: {fileID: 8877319073474328211}
+  _playerGun: {fileID: 8156609764529476459}
 --- !u!114 &8877319073474328211
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,7 +196,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4af12a5625c4342a435791fb7702330, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _currentState: 0
   _playerSpaceCollider: {fileID: 4044961093887644326}
+  _slopeAngleLimit: 30
+  _wallAngleLimit: 75
 --- !u!61 &4044961093887644326
 BoxCollider2D:
   m_ObjectHideFlags: 0

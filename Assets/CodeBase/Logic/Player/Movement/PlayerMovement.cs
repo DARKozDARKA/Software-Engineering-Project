@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections;
+using System.ComponentModel;
 using CodeBase.Services.CameraProvider;
 using CodeBase.Services.InputService;
 using CodeBase.StaticData.ScriptableObjects;
 using CodeBase.Tools;
+using Unity.Collections;
 using UnityEngine;
 using Zenject;
 
@@ -11,6 +13,10 @@ namespace CodeBase.Logic.Player
 {
 	public class PlayerMovement : MonoBehaviour, IPlayerDataRequired
 	{
+		public Action<PlayerMovementState> OnStateChanged;
+
+		private PlayerMovementState _currentState;
+
 		private Rigidbody2D _rigidbody;
 		private IInputService _inputService;
 		private ICameraProvider _cameraProvider;
@@ -27,9 +33,9 @@ namespace CodeBase.Logic.Player
 		private BoxCollider2D _playerSpaceCollider;
 
 		[SerializeField]
-		private float _slopeAngleLimit = 30f; // Maximum angle for slopes
+		private float _slopeAngleLimit = 30f;
 		[SerializeField]
-		private float _wallAngleLimit = 75f;  // Minimum angle for walls
+		private float _wallAngleLimit = 75f; 
 
 		private float _collisionAdjustmentAmount;
 		private IRaycasterService _raycasterService;
@@ -65,52 +71,16 @@ namespace CodeBase.Logic.Player
 			_jumpReloadTime = playerData.PlayerJumpReload;
 			_collisionAdjustmentAmount = playerData.CollisionAdjustmentAmount;
 		}
-
-		private void OnCollisionStay2D(Collision2D collision)
-		{
-			foreach (ContactPoint2D contact in collision.contacts)
-			{
-				Vector2 normal = contact.normal;
-				float angle = Vector2.Angle(normal, Vector2.up);
-
-				if (angle <= _slopeAngleLimit)
-				{
-					// Flat ground or gentle slope
-					_isGrounded = true;
-					_isOnSlope = false;
-					return;
-				}
-				else if (angle >= _wallAngleLimit)
-				{
-					// Wall detected (steep surface)
-					_isGrounded = true;
-					_isOnSlope = false;
-					return;
-				}
-				else
-				{
-					// Slope detected
-					_isOnSlope = true;
-				}
-			}
-
-			// If no valid ground or wall detected
-			_isGrounded = false;
-		}
-
-		private void OnCollisionExit2D(Collision2D collision)
-		{
-			_isGrounded = false;
-			_isOnSlope = false;
-		}
-
-		public void TeleportTo(Vector3 targetPosition)
-		{
-			if (!_canJump)
-				return;
-
+		
+		public void TeleportTo(Vector3 targetPosition) => 
 			transform.position = _raycasterService.AdjustPosition(targetPosition, _playerSpaceCollider.size, _collisionAdjustmentAmount);
-		}
+
+		private void OnCollisionEnter2D(Collision2D collision) => 
+			EvaluateState(collision);
+
+		private void OnCollisionExit2D(Collision2D collision) => 
+			EvaluateState(collision);
+
 
 		private void OnJumpPressed()
 		{
@@ -131,6 +101,69 @@ namespace CodeBase.Logic.Player
 			_isJumpReloaded = false;
 			yield return new WaitForSeconds(_jumpReloadTime);
 			_isJumpReloaded = true;
+		}
+		
+		private void EvaluateState(Collision2D collision)
+		{
+			foreach (ContactPoint2D contact in collision.contacts)
+				if (EvaluateContact(contact))
+					return;
+
+			_isGrounded = false;
+
+			bool EvaluateContact(ContactPoint2D contact)
+			{
+				float angle = Vector2.Angle(contact.normal, Vector2.up);
+
+				if (EvaluateGround(angle))
+					return true;
+
+				if (EvaluateWall(angle)) 
+					return true;
+
+				EvaluateSlope();
+				return false;
+			}
+
+			bool EvaluateGround(float angle)
+			{
+				if (!(angle <= _slopeAngleLimit))
+					return false;
+				
+				ChangeState(PlayerMovementState.Default);
+				_isGrounded = true;
+				_isOnSlope = false;
+				return true;
+
+			}
+
+			bool EvaluateWall(float angle)
+			{
+				if (!(angle >= _wallAngleLimit))
+					return false;
+				
+				ChangeState(PlayerMovementState.Default);
+				_isGrounded = true;
+				_isOnSlope = false;
+				return true;
+
+			}
+
+			void EvaluateSlope()
+			{
+				ChangeState(PlayerMovementState.Slope);
+				_isOnSlope = true;
+			}
+		}
+
+
+		private void ChangeState(PlayerMovementState newState)
+		{
+			if (_currentState == newState)
+				return;
+
+			_currentState = newState;
+			OnStateChanged?.Invoke(_currentState);
 		}
 	}
 }

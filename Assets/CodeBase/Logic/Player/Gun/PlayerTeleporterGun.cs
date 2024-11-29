@@ -24,7 +24,9 @@ public class PlayerTeleporterGun : MonoBehaviour, IPlayerDataRequired
 
     private float _reloadTime = 1;
     
-    private bool _canFire = true;
+    private bool _isReloaded = true;
+    private bool _enabled = true;
+    private bool _canFire => _isReloaded && _enabled;
     
     private IInputService _inputService;
     private IPrefabFactory _prefabFactory;
@@ -51,7 +53,13 @@ public class PlayerTeleporterGun : MonoBehaviour, IPlayerDataRequired
     {
         _reloadTime = playerData.GunReloadTime;
     }
-    
+
+    public void EnableGun() => 
+        _enabled = true;
+
+    public void DisableGun() => 
+        _enabled = false;
+
     private void Update()
     {
         Vector3 mousePos = _inputService.GetMousePosition();
@@ -83,9 +91,9 @@ public class PlayerTeleporterGun : MonoBehaviour, IPlayerDataRequired
 
     private IEnumerator Reload()
     {
-        _canFire = false;
+        _isReloaded = false;
         yield return new WaitForSeconds(_reloadTime);
-        _canFire = true;
+        _isReloaded = true;
     }
 
 
