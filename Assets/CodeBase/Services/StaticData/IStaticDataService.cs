@@ -9,7 +9,7 @@ namespace CodeBase.Services.StaticData
         void Load();
         Dictionary<string, LevelData> GetLevels();
         GameData GetGameData();
-        PlayerData GetPlayerData(DifficultyData difficultyData);
-        DifficultyData GetDifficultyData(Difficulties difficulty);
+        PlayerData GetPlayerData();
+        DifficultyData GetDifficultyData();
     }
 }

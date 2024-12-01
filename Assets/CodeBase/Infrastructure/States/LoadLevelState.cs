@@ -1,7 +1,6 @@
 using CodeBase.Infrastructure.States.DTO;
 using CodeBase.Logic.Player;
 using CodeBase.Services.CameraProvider;
-using CodeBase.Services.DifficultyService;
 using CodeBase.Services.Factory;
 using CodeBase.Services.StaticData;
 using CodeBase.Services.Unity;
@@ -19,18 +18,16 @@ namespace CodeBase.Infrastructure.States
         private GameStateMachine _stateMachine;
         private IStaticDataService _staticDataService;
         private IPrefabFactory _prefabFactory;
-        private IDifficultyService _difficultyService;
         private IPlayerProvider _playerProvider;
         private ICameraProvider _cameraProvider;
 
         [Inject]
         public void Construct(GameStateMachine stateMachine, ISceneLoader sceneLoader,
-            IStaticDataService staticDataService, IPrefabFactory prefabFactory, IDifficultyService difficultyService,
+            IStaticDataService staticDataService, IPrefabFactory prefabFactory,
             IPlayerProvider playerProvider, ICameraProvider cameraProvider)
         {
             _cameraProvider = cameraProvider;
             _playerProvider = playerProvider;
-            _difficultyService = difficultyService;
             _prefabFactory = prefabFactory;
             _staticDataService = staticDataService;
             _stateMachine = stateMachine;
@@ -48,7 +45,7 @@ namespace CodeBase.Infrastructure.States
         {
             _cameraProvider.SetCamera(Camera.main); // TODO: Should spawn it
             
-            Player player = _prefabFactory.CreatePlayer(new Vector3(0, 0, 0)); // TODO That's also bullshit 
+            Player player = _prefabFactory.CreatePlayer(Object.FindAnyObjectByType<PlayerSpawnPoint>().transform.position);
             _playerProvider.SetPlayer(player);
 
             _prefabFactory.CreateUIRoot();

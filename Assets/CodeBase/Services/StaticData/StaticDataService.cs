@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using CodeBase.StaticData.Enums;
 using CodeBase.StaticData.ScriptableObjects;
 using CodeBase.StaticData.Strings;
 using CodeBase.Tools;
+using Unity.VisualScripting;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -31,22 +33,15 @@ namespace CodeBase.Services.StaticData
         public Dictionary<string, LevelData> GetLevels() =>
             _levels;
 
-        public DifficultyData GetDifficultyData(Difficulties difficulty) =>
-            _difficulties[difficulty];
+        public DifficultyData GetDifficultyData() =>
+            throw new NotImplementedException();
 
         public GameData GetGameData() =>
             _gameData;
 
-        public PlayerData GetPlayerData(DifficultyData difficultyData)
-        {
-            PlayerData newPlayerData = ScriptableObject
-                .CreateInstance<PlayerData>()
-                .With(_ => _.Copy(_playerData));
-            
-            newPlayerData.HorizontalSpeed *= difficultyData.PlayerSpeedModifier;
-            return newPlayerData;
-        }
-        
+        public PlayerData GetPlayerData() => 
+            _playerData;
+
         private T LoadResource<T>(string path) where T : Object =>
             Resources.Load<T>(path);
 

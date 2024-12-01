@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 175954766}
   - component: {fileID: 175954765}
   - component: {fileID: 175954764}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Tiles
   m_TagString: Tiles
   m_Icon: {fileID: 0}
@@ -190,7 +190,7 @@ CompositeCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_GeometryType: 0
+  m_GeometryType: 1
   m_GenerationType: 0
   m_EdgeRadius: 0
   m_ColliderPaths:
@@ -8986,7 +8986,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.62, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9004,7 +9004,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69cc65dce113dd14891f1f129d5399f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _offset: {x: 0, y: 0, z: -10}
+  _camera: {fileID: 519420031}
+  _offset: {x: -10, y: 5, z: -10}
+  _gridOffset: {x: 0.5, y: -0.5}
 --- !u!1 &534805234
 GameObject:
   m_ObjectHideFlags: 0
@@ -14960,6 +14962,50 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &2024569613
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2024569614}
+  - component: {fileID: 2024569615}
+  m_Layer: 0
+  m_Name: SpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2024569614
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2024569613}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.67, y: 2.59, z: 0.02}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2024569615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2024569613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb596671c6b42c84eb47f66976565d0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2142263547
 GameObject:
   m_ObjectHideFlags: 0
@@ -15715,3 +15761,4 @@ SceneRoots:
   - {fileID: 885266061}
   - {fileID: 679209675}
   - {fileID: 966391489}
+  - {fileID: 2024569614}

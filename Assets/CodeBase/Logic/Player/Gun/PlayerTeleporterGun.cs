@@ -1,14 +1,16 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using CodeBase.Logic.Player;
 using CodeBase.Services.Factory;
 using CodeBase.Services.InputService;
+using CodeBase.StaticData.ScriptableObjects;
 using CodeBase.Tools;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Zenject;
 
-public class PlayerTeleporterGun : MonoBehaviour
+public class PlayerTeleporterGun : MonoBehaviour, IPlayerDataRequired
 {
     [FormerlySerializedAs("bulletTransform")]
     [SerializeField]
@@ -18,9 +20,13 @@ public class PlayerTeleporterGun : MonoBehaviour
     private PlayerMovement _playerMovement;
 
     [SerializeField]
+    private Collider2D _gunCollider;
+
     private float _reloadTime = 1;
     
-    private bool _canFire = true;
+    private bool _isReloaded = true;
+    private bool _enabled = true;
+    private bool _canFire => _isReloaded && _enabled;
     
     private IInputService _inputService;
     private IPrefabFactory _prefabFactory;
@@ -43,6 +49,17 @@ public class PlayerTeleporterGun : MonoBehaviour
         _inputService.OnFirePressed -= OnFirePressed;
     }
     
+    public void LoadData(PlayerData playerData)
+    {
+        _reloadTime = playerData.GunReloadTime;
+    }
+
+    public void EnableGun() => 
+        _enabled = true;
+
+    public void DisableGun() => 
+        _enabled = false;
+
     private void Update()
     {
         Vector3 mousePos = _inputService.GetMousePosition();
@@ -54,6 +71,10 @@ public class PlayerTeleporterGun : MonoBehaviour
     private void OnFirePressed()
     {
         if (!_canFire)
+            return;
+
+        List<Collider2D> results = new List<Collider2D>();
+        if (_gunCollider.Overlap(results) != 0)
             return;
 
         _prefabFactory.CreateTeleportProjectile(_muzzleTransform.transform.position, _currentDirection)
@@ -70,10 +91,11 @@ public class PlayerTeleporterGun : MonoBehaviour
 
     private IEnumerator Reload()
     {
-        _canFire = false;
+        _isReloaded = false;
         yield return new WaitForSeconds(_reloadTime);
-        _canFire = true;
+        _isReloaded = true;
     }
+
 
 
 }
