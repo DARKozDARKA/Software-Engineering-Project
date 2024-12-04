@@ -75,7 +75,7 @@ namespace CodeBase.Logic.Player
 		public void TeleportTo(Vector3 targetPosition) => 
 			transform.position = _raycasterService.AdjustPosition(targetPosition, _playerSpaceCollider.size, _collisionAdjustmentAmount);
 
-		private void OnCollisionEnter2D(Collision2D collision) => 
+		private void OnCollisionStay2D(Collision2D collision) => 
 			EvaluateState(collision);
 
 		private void OnCollisionExit2D(Collision2D collision) => 
