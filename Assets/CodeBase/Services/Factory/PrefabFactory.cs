@@ -40,6 +40,11 @@ namespace CodeBase.Services.Factory
                 .With(Inject)
                 .With(_ => _uiRoot = _);
 
+        public GameObject CreateUIFinalPanel() =>
+            _assetProvider.Instantiate(PrefabsPath.UIFinalPanel, _uiRoot, _uiRoot.transform)
+                .With(Inject);
+
+
         public TeleporterProjectile CreateTeleportProjectile(Vector3 position, Vector2 direction) =>
             _assetProvider.Instantiate(PrefabsPath.TeleportProjectile, position)
                 .With(Inject)

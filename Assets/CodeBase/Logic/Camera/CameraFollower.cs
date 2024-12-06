@@ -18,6 +18,9 @@ public class CameraFollower : MonoBehaviour
     [SerializeField]
     private Vector2 _gridOffset;
 
+    [SerializeField]
+    private float _targetAspect;
+
     [Inject]
     public void Construct(IPlayerProvider playerProvider)
     {
@@ -32,6 +35,10 @@ public class CameraFollower : MonoBehaviour
     private void OnDestroy() => 
         _playerProvider.OnPlayerInitialized -= OnPlayerInitialized;
 
+
+    private void Start() => 
+        AdjustCamera();
+
     private void OnPlayerInitialized(Player player)
     {
         _player = player;
@@ -45,8 +52,8 @@ public class CameraFollower : MonoBehaviour
 
         SnapToPlayer();
     }
-    
-    
+
+
     private void SnapToPlayer()
     {
         float cameraHeight = _camera.orthographicSize * 2f;
@@ -61,5 +68,33 @@ public class CameraFollower : MonoBehaviour
         snappedY += _gridOffset.y * cameraHeight;
 
         transform.position = new Vector3(snappedX, snappedY, targetPosition.z);
+    }
+
+    private void AdjustCamera()
+    {
+        float targetAspect = _targetAspect;
+        float windowAspect = (float)Screen.width / Screen.height;
+        float scaleHeight = windowAspect / targetAspect;
+
+        Rect rect = _camera.rect;
+
+        if (scaleHeight < 1f)
+        {
+            rect.width = 1f;
+            rect.height = scaleHeight;
+            rect.x = 0;
+            rect.y = (1f - scaleHeight) / 2f;
+        }
+        else
+        {
+            float scaleWidth = 1f / scaleHeight;
+
+            rect.width = scaleWidth;
+            rect.height = 1f;
+            rect.x = (1f - scaleWidth) / 2f;
+            rect.y = 0;
+        }
+
+        _camera.rect = rect;
     }
 }
