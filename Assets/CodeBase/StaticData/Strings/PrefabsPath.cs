@@ -5,5 +5,6 @@
         public const string Player = "Units/Characters/Player";
         public const string TeleportProjectile = "Units/Projectiles/TeleportProjectile";
         public const string UI = "UI/Canvas";
+        public const string UIFinalPanel = "UI/FinalPanel";
     }
 }
