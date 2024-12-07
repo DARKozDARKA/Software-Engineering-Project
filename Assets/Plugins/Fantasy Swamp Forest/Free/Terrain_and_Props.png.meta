@@ -439,7 +439,10 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: 8, y: 8}
+        - {x: -8, y: -8}
+        - {x: 8, y: -8}
       tessellationDetail: 0
       bones: []
       spriteID: bcbe2b8c791dbc1d0800000000000000
@@ -781,7 +784,11 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: 8, y: 8}
+        - {x: -4, y: -3}
+        - {x: -2, y: -8}
+        - {x: 8, y: -8}
       tessellationDetail: 0
       bones: []
       spriteID: 25476b74528f2da4cbbd271fdda3f059
@@ -916,10 +923,8 @@ TextureImporter:
       physicsShape:
       - - {x: 1, y: -8}
         - {x: 3, y: -4}
-        - {x: -6, y: 8}
         - {x: -8, y: 8}
         - {x: -8, y: -8}
-        - {x: 5, y: -8}
       tessellationDetail: 0
       bones: []
       spriteID: 3a2d0b761426e0b41ac4839fcfe2b976
@@ -3462,7 +3467,11 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: 8, y: 0}
+        - {x: 8, y: 8}
+        - {x: -8, y: 8}
+        - {x: -8, y: 0}
       tessellationDetail: 0
       bones: []
       spriteID: 1df7816dd1ecd6240b3a3f62d269a5da
@@ -3484,7 +3493,11 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: 8, y: 0}
+        - {x: 8, y: 8}
+        - {x: -8, y: 8}
+        - {x: -8, y: 0}
       tessellationDetail: 0
       bones: []
       spriteID: 071f18437e3c2964caa70f145c7bd72d
@@ -3506,7 +3519,11 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
-      physicsShape: []
+      physicsShape:
+      - - {x: 8, y: 0}
+        - {x: 8, y: 8}
+        - {x: -8, y: 8}
+        - {x: -8, y: 0}
       tessellationDetail: 0
       bones: []
       spriteID: d58ae63658bb7764bbcca1934ff7c3da
