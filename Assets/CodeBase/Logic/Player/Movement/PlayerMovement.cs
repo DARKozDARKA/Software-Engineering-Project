@@ -40,6 +40,8 @@ namespace CodeBase.Logic.Player
 		private float _collisionAdjustmentAmount;
 		private IRaycasterService _raycasterService;
 
+		AudioManager audioManager;
+
 		[Inject]
 		private void Construct(IInputService inputService, ICameraProvider cameraProvider, IRaycasterService raycasterService)
 		{
@@ -51,6 +53,7 @@ namespace CodeBase.Logic.Player
 		private void Awake()
 		{
 			_rigidbody = GetComponent<Rigidbody2D>();
+			audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
 		}
 
 		private void Start()
@@ -94,6 +97,8 @@ namespace CodeBase.Logic.Player
 
 			_rigidbody.AddForce(directionToMouse * _jumpForce);
 			StartCoroutine(JumpReload());
+
+			audioManager.PlaySFX(audioManager.jump);
 		}
 
 		private IEnumerator JumpReload()
