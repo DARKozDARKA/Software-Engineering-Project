@@ -32,6 +32,13 @@ public class PlayerTeleporterGun : MonoBehaviour, IPlayerDataRequired
     private IPrefabFactory _prefabFactory;
     private Vector3 _currentDirection;
 
+    AudioManager audioManager;
+
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
+
     [Inject]
     private void Construct(IInputService inputService, IPrefabFactory prefabFactory)
     {
@@ -81,12 +88,14 @@ public class PlayerTeleporterGun : MonoBehaviour, IPlayerDataRequired
             .With(_ => _.OnSurfaceHit += OnSurfaceHit);
 
         StartCoroutine(Reload());
+        audioManager.PlaySFX(audioManager.shoot);
     }
 
     private void OnSurfaceHit(TeleporterProjectile projectile)
     {
         _playerMovement.TeleportTo(projectile.GetPosition());
         projectile.OnSurfaceHit -= OnSurfaceHit;
+        audioManager.PlaySFX(audioManager.teleport);
     }
 
     private IEnumerator Reload()
