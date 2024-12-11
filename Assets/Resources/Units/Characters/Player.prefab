@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 8877319073474328211}
   - component: {fileID: 367906678791101419}
   - component: {fileID: 4044961093887644326}
-  - component: {fileID: 9209372574257111039}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -188,19 +187,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.2, y: 1.2}
   m_EdgeRadius: 0
---- !u!114 &9209372574257111039
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 524580795901076816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67e3f51f628a466b82e9dbdc46d83bb5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _playerMovement: {fileID: 8877319073474328211}
 --- !u!1 &719475210602778814
 GameObject:
   m_ObjectHideFlags: 0
@@ -530,6 +516,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2391973427821203936}
   - component: {fileID: 4913089421612201709}
+  - component: {fileID: 8359859838443266635}
   m_Layer: 6
   m_Name: Sprite
   m_TagString: Untagged
@@ -607,3 +594,16 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8359859838443266635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7605292343292579472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67e3f51f628a466b82e9dbdc46d83bb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerMovement: {fileID: 8877319073474328211}
