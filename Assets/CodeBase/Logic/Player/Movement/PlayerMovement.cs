@@ -29,6 +29,8 @@ namespace CodeBase.Logic.Player
 		private bool _isOnSlope;
 		private bool _isJumpReloaded = true;
 
+		public PlayerDirections PlayerDirection => Mathf.Abs(_rigidbody.linearVelocityX) < 1f ? PlayerDirections.Idle : _rigidbody.linearVelocityX > 0 ? PlayerDirections.Right : PlayerDirections.Left;
+
 		[SerializeField]
 		private BoxCollider2D _playerSpaceCollider;
 
@@ -40,7 +42,7 @@ namespace CodeBase.Logic.Player
 		private float _collisionAdjustmentAmount;
 		private IRaycasterService _raycasterService;
 
-		AudioManager audioManager;
+		private AudioManager _audioManager;
 
 		[Inject]
 		private void Construct(IInputService inputService, ICameraProvider cameraProvider, IRaycasterService raycasterService)
@@ -49,11 +51,11 @@ namespace CodeBase.Logic.Player
 			_cameraProvider = cameraProvider;
 			_inputService = inputService;
 		}
-
+		
 		private void Awake()
 		{
 			_rigidbody = GetComponent<Rigidbody2D>();
-			audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+			_audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
 		}
 
 		private void Start()
@@ -98,7 +100,7 @@ namespace CodeBase.Logic.Player
 			_rigidbody.AddForce(directionToMouse * _jumpForce);
 			StartCoroutine(JumpReload());
 
-			audioManager.PlaySFX(audioManager.jump);
+			_audioManager.PlaySFX(_audioManager.jump);
 		}
 
 		private IEnumerator JumpReload()
